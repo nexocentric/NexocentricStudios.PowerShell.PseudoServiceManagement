@@ -1,4 +1,4 @@
-# function Unregister-PSPseudoService
-# {
+function Unregister-PSPseudoService
+{
 	Write-Host "yes"
-# }
+}
