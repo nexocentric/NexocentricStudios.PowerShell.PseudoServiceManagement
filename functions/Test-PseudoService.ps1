@@ -1,6 +1,5 @@
 function Test-PseudoService
 {
-	[CmdletBinding(SupportsShouldProcess=$true)]
 	param (
 		[ValidateNotNullOrEmpty()]
 		[parameter(Mandatory=$true)]
@@ -11,10 +10,10 @@ function Test-PseudoService
 
 	if ($scheduledTaskObject -eq $null)
 	{
-		Write-Verbose -Message ("Pseduo service [${Name}] does not exist!") -ErrorAction Stop
+		Write-Verbose -Message ("Pseduo service [${Name}] does not exist!")
 		return $false
 	}
 
-	Write-Verbose -Message ("Pseduo service [${Name}] found!") -ErrorAction Stop
+	Write-Verbose -Message ("Pseduo service [${Name}] found!")
 	return $true
 }

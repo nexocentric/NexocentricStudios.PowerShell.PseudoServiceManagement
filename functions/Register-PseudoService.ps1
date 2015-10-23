@@ -2,15 +2,18 @@ function Register-PseudoService
 {
 	[CmdletBinding(SupportsShouldProcess=$true)]
 	param (
-		[ValidateNotNullOrEmpty()]
 		[parameter(Mandatory=$true)]
+		[ValidateNotNullOrEmpty()]
 		[ValidateScript({(Test-PseudoService -Name $_) -eq $false})]
 		[string]$Name,
 
-		[ValidateNotNullOrEmpty()]
 		[parameter(Mandatory=$true)]
+		[ValidateNotNullOrEmpty()]
 		[ValidateScript({Test-Path -Path $_ -PathType Leaf})]
 		[string]$ExecutableFile,
+
+		[ValidateNotNullOrEmpty()]
+		[string[]]$Arguments=$null,
 
 		[ValidateNotNullOrEmpty()]
 		[string]$Description
@@ -30,7 +33,22 @@ function Register-PseudoService
 	Write-Verbose -Message ("Script confirmed at location: ${ExecutableFile}")
 
 	$taskName = "${Name}"
-	$taskAction = New-ScheduledTaskAction -Execute $ExecutableFile
+
+	$taskAction = $null
+	if ($Arguments)
+	{
+		$parsedArguments = $Arguments -join " "
+		$taskAction = New-ScheduledTaskAction -Execute $ExecutableFile -Argument "${parsedArguments}"
+	}
+	else
+	{
+		$taskAction = New-ScheduledTaskAction -Execute $ExecutableFile
+	}
+
+	if (!$taskAction)
+	{
+		return $false
+	}
 
 	$creationDate = Get-Date
 	
