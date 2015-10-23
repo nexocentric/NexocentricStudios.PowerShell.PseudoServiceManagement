@@ -4,7 +4,7 @@ function Register-PseudoService
 	param (
 		[ValidateNotNullOrEmpty()]
 		[parameter(Mandatory=$true)]
-		# [ValidateScript({Test-Path -Path $_ -PathType Leaf})]
+		[ValidateScript({(Test-PseudoService -Name $_) -eq $false})]
 		[string]$Name,
 
 		[ValidateNotNullOrEmpty()]

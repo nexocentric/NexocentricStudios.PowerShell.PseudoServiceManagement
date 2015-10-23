@@ -4,3 +4,4 @@ $moduleDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 
 Export-ModuleMember Register-PseudoService
 Export-ModuleMember Unregister-PseudoService
+Export-ModuleMember Test-PseudoService

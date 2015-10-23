@@ -4,21 +4,17 @@ function Unregister-PseudoService
 	param (
 		[ValidateNotNullOrEmpty()]
 		[parameter(Mandatory=$true)]
-		# [ValidateScript({Test-Path -Path $_ -PathType Leaf})]
+		[ValidateScript({(Test-PseudoService -Name $_) -eq $true})]
 		[string]$Name
 	)
 	try
 	{
-		Write-Verbose -Message ("Checking for pseduo service [${Name}].")
-		$scheduledTaskObject = Get-ScheduledTask -TaskName $Name
-
-		Write-Verbose -Message ("Pseduo service [${Name}] found!")
 		Unregister-ScheduledTask -TaskName $Name
 		return $true
 	}
 	catch
 	{
-		Write-Verbose -Message ("No pseduo service by the name of [${Name}] exists.")
+		Write-Verbose -Message ("The pseduo service by the name of [${Name}] has dissapeared or been removed by another resource. It does not exist anymore.")
 		return $false
 	}
 }
