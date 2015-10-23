@@ -32,11 +32,12 @@ function Register-PseudoService
 	$taskTrigger = New-ScheduledTaskTrigger -Once:$false -At 6AM -RepetitionDuration ([TimeSpan]::MaxValue) -RepetitionInterval (New-TimeSpan -Minutes 5)
 
 # (New-TimeSpan -Minutes 5)
-	$taskSettings = New-ScheduledTaskSettingsSet -RestartCount 3 -StartWhenAvailable #-MultipleInstances ()
+	$taskSettings = New-ScheduledTaskSettingsSet -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1) -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -DontStopOnIdleEnd -WakeToRun
+	$taskSettings.ExecutionTimeLimit = "PT0S" #this disables the stop the task checkbox
 
 	# $userPassword = Read-Host -Prompt ("Please enter the password for [${taskUser}]") -AsSecureString
 
-	$taskPrincipal = New-ScheduledTaskPrincipal -UserId "LOCALSERVICE" -LogonType ServiceAccount
+	$taskPrincipal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -LogonType ServiceAccount
 
 	$scheduledTask = New-ScheduledTask -Action $taskAction -Principal $taskPrincipal -Trigger $taskTrigger -Settings $taskSettings
 
