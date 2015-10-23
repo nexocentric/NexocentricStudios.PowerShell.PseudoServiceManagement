@@ -1,4 +1,4 @@
-function Register-PSPseudoService
+function Register-PseudoService
 {
 	[CmdletBinding(SupportsShouldProcess=$true)]
 	param (
@@ -10,29 +10,28 @@ function Register-PSPseudoService
 		[ValidateNotNullOrEmpty()]
 		[parameter(Mandatory=$true)]
 		[ValidateScript({Test-Path -Path $_ -PathType Leaf})]
-		[string]$PowerShellScript
+		[string]$ExecutableFile
 	)
 
 	Write-Verbose -Message ("Performing checks for proper credentials.")
-	$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-	if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
-	{
-		Write-Error -Message ("You must run PowerShell as administrator to run this function.")
-		return $false
-	}
+	# $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+	# if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+	# {
+	# 	Write-Error -Message ("You must run PowerShell as administrator to run this function.")
+	# 	return $false
+	# }
 
 	$taskUser = $env:USERDOMAIN + "\" + $env:USERNAME
 
 
-	Write-Verbose -Message ("Script confirmed at location: ${PowerShellScript}")
+	Write-Verbose -Message ("Script confirmed at location: ${ExecutableFile}")
 
 	$taskName = "$Name"
-	$taskAction = New-ScheduledTaskAction -Execute $PowerShellScript
+	$taskAction = New-ScheduledTaskAction -Execute $ExecutableFile
 	
-	$taskTrigger = New-ScheduledTaskTrigger -Daily -At 6AM
-	$taskTrigger.RepetitionInterval = (New-TimeSpan -Minutes 5)
-	$taskTrigger.RepetitionDuration = ([TimeSpan]::MaxValue)
+	$taskTrigger = New-ScheduledTaskTrigger -Once:$false -At 6AM -RepetitionDuration ([TimeSpan]::MaxValue) -RepetitionInterval (New-TimeSpan -Minutes 5)
 
+# (New-TimeSpan -Minutes 5)
 	$taskSettings = New-ScheduledTaskSettingsSet -RestartCount 3 -StartWhenAvailable #-MultipleInstances ()
 
 	# $userPassword = Read-Host -Prompt ("Please enter the password for [${taskUser}]") -AsSecureString
