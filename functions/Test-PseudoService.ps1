@@ -5,15 +5,15 @@ function Test-PseudoService
 		[parameter(Mandatory=$true)]
 		[string]$Name
 	)
-	Write-Verbose -Message ("Checking for pseduo service [${Name}${pseduoServiceSuffix}].")
-	$scheduledTaskObject = Get-ScheduledTask | Where-Object { $_.TaskName -eq "${Name}${pseduoServiceSuffix}" }
+	Write-Verbose -Message ("Checking for pseduo service [${Name}${pseudoServiceSuffix}].")
+	$scheduledTaskObject = Get-ScheduledTask | Where-Object { $_.TaskName -eq "${Name}${pseudoServiceSuffix}" }
 
 	if ($scheduledTaskObject -eq $null)
 	{
-		Write-Verbose -Message ("Pseduo service [${Name}${pseduoServiceSuffix}] does not exist!")
+		Write-Verbose -Message ("Pseduo service [${Name}${pseudoServiceSuffix}] does not exist!")
 		return $false
 	}
 
-	Write-Verbose -Message ("Pseduo service [${Name}${pseduoServiceSuffix}] found!")
+	Write-Verbose -Message ("Pseduo service [${Name}${pseudoServiceSuffix}] found!")
 	return $true
 }

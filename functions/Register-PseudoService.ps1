@@ -21,7 +21,7 @@ function Register-PseudoService
 
 	Write-Verbose -Message ("Script confirmed at location: ${ExecutableFile}")
 
-	$taskName = "${Name}${pseduoServiceSuffix}"
+	$taskName = "${Name}${pseudoServiceSuffix}"
 
 	$taskAction = $null
 	if ($Arguments)

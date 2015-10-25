@@ -1,4 +1,4 @@
-$pseduoServiceSuffix = "PseudoService"
+$pseudoServiceSuffix = "PseudoService"
 
 $moduleDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 

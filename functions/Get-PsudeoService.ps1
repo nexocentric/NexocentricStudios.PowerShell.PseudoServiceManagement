@@ -3,11 +3,16 @@ function Get-PseudoService
 	[CmdletBinding(SupportsShouldProcess=$true)]
 	param (
 		[ValidateNotNullOrEmpty()]
-		[parameter(Mandatory=$true)]
-		[ValidateScript({((Test-PseudoService -Name $_) -eq $true) -and (Test-PseudoServiceRegistrantIsAdministrator)})]
-		[string]$Name
+		[string]$Filter
 	)
 
-	
-	Write-Verbose -Message ("Listing all psuedo services")
+	$registeredPseudoServices = (Get-ScheduledTask | Select-Object -ExpandProperty TaskName)
+	foreach ($pseudoServiceName in $registeredPseudoServices)
+	{
+		if (!($pseudoServiceName -like "${Filter}${pseudoServiceSuffix}"))
+		{
+			continue
+		}
+		Write-Output -InputObject $pseudoServiceName
+	}
 }
