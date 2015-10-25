@@ -4,7 +4,7 @@ function Unregister-PseudoService
 	param (
 		[ValidateNotNullOrEmpty()]
 		[parameter(Mandatory=$true)]
-		[ValidateScript({(Test-PseudoService -Name $_) -eq $true})]
+		[ValidateScript({((Test-PseudoService -Name $_) -eq $true) -and (Test-PseudoServiceRegistrantIsAdministrator)})]
 		[string]$Name
 	)
 	try
