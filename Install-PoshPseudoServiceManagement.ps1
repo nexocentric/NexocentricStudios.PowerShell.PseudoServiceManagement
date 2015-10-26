@@ -5,7 +5,6 @@ function Install-PoshPseudoServiceManagement
 
 	$powershellModulePaths = @($env:PSModulePath -split ';')
 
-	$installationDirectory = "PoshPseudoServiceManagement"
 	$installationPath = ""
 	foreach ($path in $powershellModulePaths)
 	{
@@ -26,42 +25,41 @@ function Install-PoshPseudoServiceManagement
 		return $false
 	}
 
-	Write-Verbose -Message ("${installationPath}\${installationDirectory}")
-	New-Item -ItemType Directory -Path ("${installationPath}\${installationDirectory}") -Force
+	Write-Verbose -Message ("${installationPath}")
+	if (!(Test-Path $installationDirectory))
+	{
+		New-Item -ItemType Directory -Path ("${installationPath}") -Force
+	}
 
 	if ($PSCmdlet.ShouldProcess("thing", "place"))
 	{
 		Write-Verbose -Message ("Downloading archive")
 		(New-Object Net.WebClient).DownloadFile(
 			"https://github.com/nexocentric/posh-pseudo-service-management/archive/1.0.0.zip",
-			"${installationPath}\${installationDirectory}\posh-pseudo-service-management-1.0.0.zip" #full file path required!
+			"${installationPath}\PoshPseudoServiceManagement.zip" #full file path required!
 		)
 	}
 	else {
 		Write-Verbose -Message ("Simulating download!")
 	}
 
-	$previousLocation = (Get-Location).Path
 	if ($PSCmdlet.ShouldProcess("thing", "place"))
 	{
-		$fullFileName = "${installationPath}\${installationDirectory}\posh-pseudo-service-management-1.0.0.zip"
+		$fullFileName = "${installationPath}\PoshPseudoServiceManagement.zip"
 		Write-Verbose -Message ("Extracting archive!")
-		Set-Location -Path "${installationPath}\${installationDirectory}"
 		$shell = New-Object -com shell.application
 		$zip = $shell.NameSpace($fullFileName)
 		foreach($item in $zip.items())
 		{
-			$shell.Namespace("${installationPath}\${installationDirectory}").copyhere($item)
+			$shell.Namespace("${installationPath}").copyhere($item)
 		}
 
 		Remove-Item -Path $fullFileName
-
-		Import-Module -Name ("${installationPath}\${installationDirectory}\posh-pseudo-service-management-1.0.0\PoshPseudoServiceManagement.psm1")
+		Write-Host "You can now use these tools by running Import-Module -ListAvailable and enabling PsuedoService"
 	}
 	else {
 		Write-Verbose -Message ("Simulating archive extraction!")
 	}
-	Set-Location -Path $previousLocation
 }
 
-Install-PoshPseudoServiceManagement -Verbose -Confirm -Debug
+Install-PoshPseudoServiceManagement -Verbose -Confirm
