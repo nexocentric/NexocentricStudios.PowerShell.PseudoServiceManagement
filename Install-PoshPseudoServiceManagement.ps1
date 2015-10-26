@@ -55,7 +55,9 @@ function Install-PoshPseudoServiceManagement
 		}
 
 		Remove-Item -Path $fullFileName
-		Write-Host "You can now use these tools by running Import-Module -ListAvailable and enabling PsuedoService"
+		Move-Item -Path "${installationPath}\posh-pseudo-service-management-1.0.0" -Destination "${installationPath}\PoshPseudoServiceManagement"
+		Write-Host "You can now use these tools by running Get-Module -ListAvailable and enabling PsuedoService"
+
 	}
 	else {
 		Write-Verbose -Message ("Simulating archive extraction!")
