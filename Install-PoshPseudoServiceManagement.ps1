@@ -55,6 +55,8 @@ function Install-PoshPseudoServiceManagement
 		}
 
 		Remove-Item -Path $fullFileName
+
+		Import-Module -Path ("${installationPath}\${installationDirectory}\posh-pseudo-service-management-1.0.0\PoshPseudoServiceManagement.psm1")
 	}
 	else {
 		Write-Verbose -Message ("Simulating archive extraction!")
