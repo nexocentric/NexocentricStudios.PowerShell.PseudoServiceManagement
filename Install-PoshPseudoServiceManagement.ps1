@@ -1,4 +1,4 @@
-Install-PoshPseudoServiceManagement
+function Install-PoshPseudoServiceManagement
 {
 	[CmdletBinding(SupportsShouldProcess=$true)]
 	param ()
