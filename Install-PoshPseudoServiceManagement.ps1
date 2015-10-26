@@ -5,9 +5,23 @@ function Install-PoshPseudoServiceManagement
 
 	$powershellModulePaths = @($env:PSModulePath -split ';')
 
+	$installationPath = ""
 	foreach ($path in $powershellModulePaths)
 	{
-		Write-Verbose -Message ($path)
+		if ($path -match ":\\Users")
+		{
+			Write-Verbose -Message ("The user has a path for modules this machine at [${path}].")
+			$installationPath = $path
+			break;
+		}
+
+		Write-Verbose -Message ("Selecting [${path}] as the general location for scripts.")
+		$installationPath = $path
+	}
+
+	if ([System.string]::IsNullOrEmpty($installationPath))
+	{
+		Write-Verbose -Message ("An installation directory for the module could not be found.")
 	}
 }
 
