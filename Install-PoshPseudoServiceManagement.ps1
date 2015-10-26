@@ -51,7 +51,7 @@ function Install-PoshPseudoServiceManagement
 		$zip = $shell.NameSpace($fullFileName)
 		foreach($item in $zip.items())
 		{
-			$shell.Namespace($fullFileName.Replace(".zip", "").Replace($ReleaseName, "")).copyhere($item)
+			$shell.Namespace($fullFileName.Replace(".zip", "").Replace("1.0.0", "")).copyhere($item)
 		}
 
 		Remove-Item -Path $fullFileName
