@@ -28,6 +28,18 @@ function Install-PoshPseudoServiceManagement
 
 	Write-Verbose -Message ("${installationPath}\${installationDirectory}")
 	New-Item -ItemType Directory -Path ("${installationPath}\${installationDirectory}") -Force
+
+	if ($PSCmdlet.ShouldProcess("thing", "place"))
+	{
+		Write-Verbose -Message ("Simulate download")
+		# (New-Object Net.WebClient).DownloadFile(
+		# 	"https://github.com/nexocentric/posh-pseudo-service-management/archive/1.0.0.zip",
+		# 	"${installationPath}\${installationDirectory}\posh-pseudo-service-management-1.0.0.zip" #full file path required!
+		# )
+	}
+	else {
+		Write-Verbose -Message ("Download!")
+	}
 }
 
-Install-PoshPseudoServiceManagement -Verbose -Confirm
+Install-PoshPseudoServiceManagement -Verbose -Confirm -WhatIf
