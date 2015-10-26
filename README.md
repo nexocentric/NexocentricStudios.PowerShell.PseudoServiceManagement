@@ -6,5 +6,4 @@ However, unlike the blog all registration is done via PowerShell.
 
 ## Installation
 
-(New-Object Net.WebClient).DownloadString("https://github.com/nexocentric/posh-pseudo-service-management/master/Install-PoshPseudoServiceManagement.ps1") | Invoke-Expression
-
+(New-Object Net.WebClient).DownloadString("https://raw.githubusercontent.com/nexocentric/posh-pseudo-service-management/master/Install-PoshPseudoServiceManagement.ps1") | Invoke-Expression
