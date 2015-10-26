@@ -5,16 +5,16 @@ function Unregister-PseudoService
 		[ValidateNotNullOrEmpty()]
 		[parameter(Mandatory=$true)]
 		[ValidateScript({((Test-PseudoService -Name $_) -eq $true) -and (Test-PseudoServiceRegistrantIsAdministrator)})]
-		[string]$Name
+		[string]$PseudoServiceName
 	)
 	try
 	{
-		Unregister-ScheduledTask -TaskName "${Name}${pseudoServiceSuffix}"
+		Unregister-ScheduledTask -TaskName "${PseudoServiceName}${pseudoServiceSuffix}"
 		return $true
 	}
 	catch
 	{
-		Write-Verbose -Message ("The pseduo service by the name of [${Name}${pseudoServiceSuffix}] has dissapeared or been removed by another resource. It does not exist anymore.")
+		Write-Verbose -Message ("The pseduo service by the name of [${PseudoServiceName}${pseudoServiceSuffix}] has dissapeared or been removed by another resource. It does not exist anymore.")
 		return $false
 	}
 }

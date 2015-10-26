@@ -3,7 +3,7 @@ function Get-PseudoService
 	[CmdletBinding(SupportsShouldProcess=$true)]
 	param (
 		[ValidateNotNullOrEmpty()]
-		[string]$Filter
+		[string]$Filter="*"
 	)
 
 	$registeredPseudoServices = (Get-ScheduledTask | Select-Object -ExpandProperty TaskName)
@@ -13,6 +13,10 @@ function Get-PseudoService
 		{
 			continue
 		}
-		Write-Output -InputObject ($pseudoServiceName -replace "${pseudoServiceSuffix}$","")
+		Write-Output -InputObject (
+			Get-PseudoServiceInfo -PseudoServiceName (
+				$pseudoServiceName -replace "${pseudoServiceSuffix}$",""
+			)
+		)
 	}
 }

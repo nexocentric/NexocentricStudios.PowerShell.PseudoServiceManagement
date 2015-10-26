@@ -2,7 +2,7 @@ function Get-PseudoServiceInfo
 {
 	[CmdletBinding(SupportsShouldProcess=$true)]
 	param (
-		[parameter(Mandatory=$true,ValueFromPipeline=$true)]
+		[parameter(Mandatory=$true,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
 		[ValidateNotNullOrEmpty()]
 		[string[]]$PseudoServiceName
 	)

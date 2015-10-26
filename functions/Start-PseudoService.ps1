@@ -5,9 +5,11 @@ function Start-PseudoService
 		[ValidateNotNullOrEmpty()]
 		[parameter(Mandatory=$true)]
 		[ValidateScript({((Test-PseudoService -Name $_) -eq $true) -and (Test-PseudoServiceRegistrantIsAdministrator)})]
-		[string]$Name
+		[string]$PseudoServiceName
 	)
 
-	Write-Verbose -Message ("Starting the listed PseudoService")
+	Enable-ScheduledTask -TaskName "${PseudoServiceName}${pseudoServiceSuffix}" | Out-Null
+	Start-ScheduledTask -TaskName "${PseudoServiceName}${pseudoServiceSuffix}" | Out-Null
 
+	Get-PseudoServiceInfo -PseudoServiceName $PseudoServiceName
 }

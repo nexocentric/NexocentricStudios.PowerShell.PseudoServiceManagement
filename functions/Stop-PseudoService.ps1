@@ -5,8 +5,11 @@ function Stop-PseudoService
 		[ValidateNotNullOrEmpty()]
 		[parameter(Mandatory=$true)]
 		[ValidateScript({((Test-PseudoService -Name $_) -eq $true) -and (Test-PseudoServiceRegistrantIsAdministrator)})]
-		[string]$Name
+		[string]$PseudoServiceName
 	)
 	
-	Write-Verbose -Message ("Stopping the listed PseudoServices")
+	Stop-ScheduledTask -TaskName "${PseudoServiceName}${pseudoServiceSuffix}" | Out-Null
+	Disable-ScheduledTask -TaskName "${PseudoServiceName}${pseudoServiceSuffix}" | Out-Null
+
+	Get-PseudoServiceInfo -PseudoServiceName $PseudoServiceName
 }
