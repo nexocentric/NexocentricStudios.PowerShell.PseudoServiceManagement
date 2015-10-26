@@ -5,6 +5,7 @@ function Install-PoshPseudoServiceManagement
 
 	$powershellModulePaths = @($env:PSModulePath -split ';')
 
+	$installationDirectory = "PoshPseudoServiceManagement"
 	$installationPath = ""
 	foreach ($path in $powershellModulePaths)
 	{
@@ -23,6 +24,8 @@ function Install-PoshPseudoServiceManagement
 	{
 		Write-Verbose -Message ("An installation directory for the module could not be found.")
 	}
+
+	New-Item -Path ("${installationPath}\${installationDirectory}") -ItemType Directory
 }
 
-Install-PoshPseudoServiceManagement -Verbose
+Install-PoshPseudoServiceManagement -Verbose -Confirm
