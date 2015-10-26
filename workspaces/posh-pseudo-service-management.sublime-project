@@ -1,0 +1,9 @@
+{
+	"folders":
+	[
+		{
+			"path": "C:\\development\\posh-pseudo-service",
+			"folder_exclude_patterns": [".git"]
+		}
+	]
+}
