@@ -26,7 +26,7 @@ function Install-PoshPseudoServiceManagement
 	}
 
 	Write-Verbose -Message ("${installationPath}")
-	if (!(Test-Path $installationDirectory))
+	if (!(Test-Path $installationPath))
 	{
 		New-Item -ItemType Directory -Path ("${installationPath}") -Force
 	}
