@@ -13,6 +13,6 @@ function Get-PseudoService
 		{
 			continue
 		}
-		Write-Output -InputObject $pseudoServiceName
+		Write-Output -InputObject ($pseudoServiceName -replace "${pseudoServiceSuffix}$","")
 	}
 }

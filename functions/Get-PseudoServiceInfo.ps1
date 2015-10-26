@@ -2,12 +2,34 @@ function Get-PseudoServiceInfo
 {
 	[CmdletBinding(SupportsShouldProcess=$true)]
 	param (
+		[parameter(Mandatory=$true,ValueFromPipeline=$true)]
 		[ValidateNotNullOrEmpty()]
-		[parameter(Mandatory=$true)]
-		[ValidateScript({((Test-PseudoService -Name $_) -eq $true) -and (Test-PseudoServiceRegistrantIsAdministrator)})]
-		[string]$Name
+		[string[]]$PseudoServiceName
 	)
+	begin {}
+	process
+	{
+		foreach ($pseudoService in $PseudoServiceName)
+		{
+			$pseudoServiceProperties = @{
+				PseudoServiceName = $pseudoService;
+				Description = "Not Applicable";
+				Registrant = "Not Applicable";
+				Registered = $false;
+				Status = "Not Applicable";
+			}
+			
+			if (Test-PseudoService -Name $pseudoService)
+			{
+				$selectedTask = Get-ScheduledTask -TaskName "${pseudoService}${pseudoServiceSuffix}"
+				$pseudoServiceProperties.Description = $selectedTask.Description
+				$pseudoServiceProperties.Registered = $true
+				$pseudoServiceProperties.Registrant = $selectedTask.Author
+				$pseudoServiceProperties.Status = if ($selectedTask.State -eq "Disabled") { "Stopped" } else { "Running" }
+			}
 
-	
-	Write-Verbose -Message ("Listing all psuedo services")
+			Write-Output -InputObject (New-Object -TypeName PSObject -Property $pseudoServiceProperties)
+		}
+	}
+	end {}
 }
