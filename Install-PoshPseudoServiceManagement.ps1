@@ -62,4 +62,4 @@ function Install-PoshPseudoServiceManagement
 	Set-Location -Path $previousLocation
 }
 
-Install-PoshPseudoServiceManagement -Verbose -Confirm -WhatIf
+Install-PoshPseudoServiceManagement -Verbose -Confirm
