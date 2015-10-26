@@ -25,6 +25,7 @@ function Install-PoshPseudoServiceManagement
 		Write-Verbose -Message ("An installation directory for the module could not be found.")
 	}
 
+	Write-Verbose -Message ("${installationPath}\${installationDirectory}")
 	New-Item -Path ("${installationPath}\${installationDirectory}") -ItemType Directory
 }
 
