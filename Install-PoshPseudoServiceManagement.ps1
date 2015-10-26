@@ -23,10 +23,11 @@ function Install-PoshPseudoServiceManagement
 	if ([System.string]::IsNullOrEmpty($installationPath))
 	{
 		Write-Verbose -Message ("An installation directory for the module could not be found.")
+		return $false
 	}
 
 	Write-Verbose -Message ("${installationPath}\${installationDirectory}")
-	New-Item -Path ("${installationPath}\${installationDirectory}") -ItemType Directory
+	New-Item -ItemType Directory -Path ("${installationPath}\${installationDirectory}") -Force
 }
 
 Install-PoshPseudoServiceManagement -Verbose -Confirm
